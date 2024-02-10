@@ -6,6 +6,7 @@ import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
 import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListUiState
 import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -19,6 +20,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class EpisodeListViewModelTest {
 
     @get:Rule
@@ -30,27 +32,41 @@ class EpisodeListViewModelTest {
     private lateinit var sut: EpisodeListViewModel
 
     @Before
-    fun setup() {
+    fun initSystemUnderTest() {
         MockitoAnnotations.openMocks(this)
         sut = EpisodeListViewModel(episodeRepository = mockedEpisodeReposity)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun loadEpisodes_success_triggersLoadingState() = runTest {
+    fun loadEpisodes_success_updatesLoadingState() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.success(value = emptyList()))
+        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.success(emptyList()))
         val loadingStates = mutableListOf<EpisodeListUiState>()
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            sut.uiState.toList(loadingStates)
+            // Drop the initial value, which is always false
+            sut.uiState.drop(1).toList(loadingStates)
         }
         // When
         sut.loadEpisodes()
         // Then
-        assertEquals(3, loadingStates.size)
-        assertEquals(false, loadingStates[0].isLoading)
-        assertEquals(true, loadingStates[1].isLoading)
-        assertEquals(false, loadingStates[2].isLoading)
+        assertEquals(true, loadingStates.first().isLoading)
+        assertEquals(false, loadingStates.last().isLoading)
+    }
+
+    @Test
+    fun loadEpisodes_failure_updatesLoadingState() = runTest {
+        // Given
+        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
+        val loadingStates = mutableListOf<EpisodeListUiState>()
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            // Drop the initial value, which is always false
+            sut.uiState.drop(1).toList(loadingStates)
+        }
+        // When
+        sut.loadEpisodes()
+        // Then
+        assertEquals(true, loadingStates.first().isLoading)
+        assertEquals(false, loadingStates.last().isLoading)
     }
 
     @Test

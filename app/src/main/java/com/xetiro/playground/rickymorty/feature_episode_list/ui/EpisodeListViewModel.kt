@@ -6,7 +6,6 @@ import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeReposit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-
 class EpisodeListViewModel(
     private val episodeRepository: EpisodeRepository
 ) {
@@ -24,6 +23,8 @@ class EpisodeListViewModel(
                     episodeList = result.getOrDefault(emptyList())
                 )
             )
+        } else {
+            uiState.emit(uiState.value.copy(isLoading = false))
         }
     }
 }
