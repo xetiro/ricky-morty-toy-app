@@ -1,15 +1,14 @@
-package com.paypay.xetiro.rickymorty.feature_episode_list
+package com.xetiro.playground.rickymorty.feature_episode_list
 
-import com.paypay.xetiro.rickymorty.feature_episode_list.data.EpisodeRepository
-import com.paypay.xetiro.rickymorty.feature_episode_list.data.model.Episode
-import com.paypay.xetiro.rickymorty.feature_episode_list.ui.EpisodeListUiState
-import com.paypay.xetiro.rickymorty.feature_episode_list.ui.EpisodeListViewModel
+import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeRepository
+import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListUiState
+import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListViewModel
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
 import org.mockito.Mock
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
@@ -18,7 +17,7 @@ class EpisodeListViewModelTest {
     @Mock
     lateinit var mockedEpisodeReposity: EpisodeRepository
 
-    lateinit var sut: EpisodeListViewModel
+    private lateinit var sut: EpisodeListViewModel
 
     @Before
     fun setup() {

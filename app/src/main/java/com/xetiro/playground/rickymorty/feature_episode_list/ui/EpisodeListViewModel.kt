@@ -1,6 +1,7 @@
-package com.paypay.xetiro.rickymorty.feature_episode_list.ui
+package com.xetiro.playground.rickymorty.feature_episode_list.ui
 
-import com.paypay.xetiro.rickymorty.feature_episode_list.data.EpisodeRepository
+import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeRepository
+
 
 class EpisodeListViewModel(
     private val episodeRepository: EpisodeRepository

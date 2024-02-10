@@ -1,6 +1,6 @@
-package com.paypay.xetiro.rickymorty.feature_episode_list.data
+package com.xetiro.playground.rickymorty.feature_episode_list.data
 
-import com.paypay.xetiro.rickymorty.feature_episode_list.data.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
 
 interface EpisodeRepository {
     fun getEpisodes(): Result<List<Episode>>

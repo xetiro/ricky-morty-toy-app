@@ -1,3 +1,3 @@
-package com.paypay.xetiro.rickymorty.feature_episode_list.data.model
+package com.xetiro.playground.rickymorty.feature_episode_list.data.model
 
 class Episode
