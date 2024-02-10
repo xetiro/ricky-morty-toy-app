@@ -1,0 +1,3 @@
+package com.paypay.xetiro.rickymorty.feature_episode_list.data
+
+interface EpisodeRepository
