@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.paypay.xetiro.rickymorty"
+    namespace = "com.xetiro.playground.rickymorty"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.paypay.xetiro.rickymorty"
+        applicationId = "com.xetiro.playground.rickymorty"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
