@@ -2,9 +2,37 @@ package com.xetiro.playground.rickymorty.feature_episode_list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
+
+/**
+ * Utility for facilitating test setup.
+ *
+ * Created by xetiro (aka Ruben Geraldes) on 2024/02/10.
+ */
+
+// Reusable JUnit4 TestRule to override the Main dispatcher
+@OptIn(ExperimentalCoroutinesApi::class)
+class MainDispatcherRule(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+) : TestWatcher() {
+    override fun starting(description: Description) {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    override fun finished(description: Description) {
+        Dispatchers.resetMain()
+    }
+}
 
 /**
  * This function observes a LiveData until it receives a new value (via onChanged) and then it
@@ -44,8 +72,18 @@ fun <T> LiveData<T>.getOrAwaitValue(
  * Observes a LiveData until the `block` is done executing.
  *
  */
-suspend fun <T> LiveData<T>.observeForTesting(block: suspend  () -> Unit) {
-    val observer = Observer<T> { }
+suspend fun <T> LiveData<T>.observeForTesting(
+    skipInitialState: Boolean = true,
+    stateList: MutableList<T>,
+    block: suspend () -> Unit
+) {
+    var numberOfUpdatesToSkip = if(skipInitialState) 1 else 0
+    val observer = Observer<T> {
+        if (numberOfUpdatesToSkip == 0)
+            stateList.add(it)
+        else
+            numberOfUpdatesToSkip--
+    }
     try {
         observeForever(observer)
         block()

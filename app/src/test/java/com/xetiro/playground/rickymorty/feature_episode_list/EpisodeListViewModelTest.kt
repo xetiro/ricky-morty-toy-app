@@ -5,26 +5,23 @@ import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeReposit
 import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
 import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListUiState
 import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
-@OptIn(ExperimentalCoroutinesApi::class)
+
 class EpisodeListViewModelTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
     lateinit var mockedEpisodeReposity: EpisodeRepository
@@ -42,12 +39,10 @@ class EpisodeListViewModelTest {
         // Given
         `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.success(emptyList()))
         val loadingStates = mutableListOf<EpisodeListUiState>()
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            // Drop the initial value, which is always false
-            sut.uiState.drop(1).toList(loadingStates)
-        }
         // When
-        sut.loadEpisodes()
+        sut.uiState.observeForTesting(stateList = loadingStates) {
+            sut.loadEpisodes()
+        }
         // Then
         assertEquals(true, loadingStates.first().isLoading)
         assertEquals(false, loadingStates.last().isLoading)
@@ -58,12 +53,10 @@ class EpisodeListViewModelTest {
         // Given
         `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
         val loadingStates = mutableListOf<EpisodeListUiState>()
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            // Drop the initial value, which is always false
-            sut.uiState.drop(1).toList(loadingStates)
-        }
         // When
-        sut.loadEpisodes()
+        sut.uiState.observeForTesting(stateList = loadingStates) {
+            sut.loadEpisodes()
+        }
         // Then
         assertEquals(true, loadingStates.first().isLoading)
         assertEquals(false, loadingStates.last().isLoading)
@@ -75,12 +68,12 @@ class EpisodeListViewModelTest {
         `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(
             Result.success(value = listOf(Episode(), Episode(), Episode()))
         )
-        val initialEpisodeListSize = sut.uiState.value.episodeList.size
+        val initialEpisodeListSize = sut.uiState.value!!.episodeList.size
         // When
         sut.loadEpisodes()
         // Then
         assertEquals(0, initialEpisodeListSize)
-        assertEquals(3, sut.uiState.value.episodeList.size)
+        assertEquals(3, sut.uiState.value!!.episodeList.size)
     }
 
     @Test
@@ -93,6 +86,6 @@ class EpisodeListViewModelTest {
         // When
         sut.loadEpisodes()
         // Then
-        assertEquals(3, sut.uiState.value.episodeList.size)
+        assertEquals(3, sut.uiState.value!!.episodeList.size)
     }
 }
