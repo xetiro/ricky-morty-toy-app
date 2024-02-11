@@ -12,7 +12,21 @@ class EpisodeListViewModel(
 
     var uiState = MutableLiveData(EpisodeListUiState())
 
-    fun loadEpisodes(page: Int = 0, isRefresh: Boolean = false) = viewModelScope.launch {
+    private var nextPage = 0
+
+    fun load() = loadEpisodes(page = 0, isRefresh = false)
+
+    fun loadMore() {
+        nextPage += 1
+        loadEpisodes(page = nextPage)
+    }
+
+    fun refresh() {
+        nextPage = 0
+        loadEpisodes(isRefresh = true)
+    }
+
+    private fun loadEpisodes(page: Int = 0, isRefresh: Boolean = false) = viewModelScope.launch {
         uiState.value = uiState.value?.copy(isLoading = true)
         val result = episodeRepository.getEpisodes(page = page)
         if (result.isSuccess) {
@@ -31,6 +45,5 @@ class EpisodeListViewModel(
         }
     }
 
-    fun refresh() = loadEpisodes(isRefresh = true)
 
 }

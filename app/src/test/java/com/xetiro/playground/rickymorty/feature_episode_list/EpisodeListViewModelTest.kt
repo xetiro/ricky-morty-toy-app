@@ -42,7 +42,7 @@ class EpisodeListViewModelTest {
         val loadingStates = mutableListOf<EpisodeListUiState>()
         // When
         sut.uiState.observeForTesting(stateList = loadingStates) {
-            sut.loadEpisodes()
+            sut.load()
         }
         // Then
         assertEquals(true, loadingStates.first().isLoading)
@@ -56,7 +56,7 @@ class EpisodeListViewModelTest {
         val loadingStates = mutableListOf<EpisodeListUiState>()
         // When
         sut.uiState.observeForTesting(stateList = loadingStates) {
-            sut.loadEpisodes()
+            sut.load()
         }
         // Then
         assertEquals(true, loadingStates.first().isLoading)
@@ -71,7 +71,7 @@ class EpisodeListViewModelTest {
         )
         val initialEpisodeListSize = sut.uiState.value!!.episodeList.size
         // When
-        sut.loadEpisodes()
+        sut.load()
         // Then
         assertEquals(0, initialEpisodeListSize)
         assertEquals(3, sut.uiState.value!!.episodeList.size)
@@ -85,7 +85,7 @@ class EpisodeListViewModelTest {
             episodeList = listOf(Episode(), Episode(), Episode())
         )
         // When
-        sut.loadEpisodes()
+        sut.load()
         // Then
         assertEquals(3, sut.uiState.value!!.episodeList.size)
     }
@@ -93,14 +93,14 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_paginated_success_addsToExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes(page = 2)).thenReturn(
+        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
             Result.success(listOf(Episode(), Episode()))
         )
         sut.uiState.value = EpisodeListUiState(
             episodeList = listOf(Episode(), Episode(), Episode())
         )
         // When
-        sut.loadEpisodes(page = 2)
+        sut.loadMore()
         // Then
         assertEquals(5, sut.uiState.value!!.episodeList.size)
     }
@@ -108,14 +108,14 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_paginated_failure_doesNotChangeExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes(page = 2)).thenReturn(
+        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
             Result.failure(Throwable("Testing failure"))
         )
         sut.uiState.value = EpisodeListUiState(
             episodeList = listOf(Episode(), Episode(), Episode())
         )
         // When
-        sut.loadEpisodes(page = 2)
+        sut.loadMore()
         // Then
         assertEquals(3, sut.uiState.value!!.episodeList.size)
     }
