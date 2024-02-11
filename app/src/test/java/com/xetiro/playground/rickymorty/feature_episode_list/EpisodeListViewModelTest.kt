@@ -10,6 +10,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -115,6 +116,36 @@ class EpisodeListViewModelTest {
         )
         // When
         sut.loadEpisodes(page = 2)
+        // Then
+        assertEquals(3, sut.uiState.value!!.episodeList.size)
+    }
+
+    @Test
+    fun loadEpisodes_refresh_success_replacesExistingData() = runTest {
+        // Given
+        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
+            Result.success(listOf(Episode(), Episode()))
+        )
+        sut.uiState.value = EpisodeListUiState(
+            episodeList = listOf(Episode(), Episode(), Episode())
+        )
+        // When
+        sut.refresh()
+        // Then
+        assertEquals(2, sut.uiState.value!!.episodeList.size)
+    }
+
+    @Test
+    fun loadEpisodes_refresh_failure_doesNotChangeExistingData() = runTest {
+        // Given
+        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
+            Result.failure(Throwable("Testing failure"))
+        )
+        sut.uiState.value = EpisodeListUiState(
+            episodeList = listOf(Episode(), Episode(), Episode())
+        )
+        // When
+        sut.refresh()
         // Then
         assertEquals(3, sut.uiState.value!!.episodeList.size)
     }
