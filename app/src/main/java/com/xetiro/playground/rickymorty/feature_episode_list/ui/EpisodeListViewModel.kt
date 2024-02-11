@@ -14,7 +14,7 @@ class EpisodeListViewModel(
 
     private var nextPage = 0
 
-    fun load() = loadEpisodes(page = 0, isRefresh = false)
+    fun load() = loadEpisodes(page = 0)
 
     fun loadMore() {
         nextPage += 1
@@ -23,14 +23,14 @@ class EpisodeListViewModel(
 
     fun refresh() {
         nextPage = 0
-        loadEpisodes(isRefresh = true)
+        loadEpisodes(page = 0)
     }
 
-    private fun loadEpisodes(page: Int = 0, isRefresh: Boolean = false) = viewModelScope.launch {
+    private fun loadEpisodes(page: Int) = viewModelScope.launch {
         uiState.value = uiState.value?.copy(isLoading = true)
         val result = episodeRepository.getEpisodes(page = page)
         if (result.isSuccess) {
-            val episodeListResult = if(page == 0 || isRefresh) {
+            val episodeListResult = if(page == 0) {
                 result.getOrDefault(emptyList())
             } else {
                 uiState.value!!.episodeList + result.getOrDefault(emptyList())
