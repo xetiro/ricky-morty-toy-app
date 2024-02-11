@@ -63,7 +63,7 @@ class EpisodeListViewModelTest {
     }
 
     @Test
-    fun loadEpisodes_success_changesExistingList() = runTest {
+    fun loadEpisodes_success_changesExistingData() = runTest {
         // Given
         `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(
             Result.success(value = listOf(Episode(), Episode(), Episode()))
@@ -77,7 +77,7 @@ class EpisodeListViewModelTest {
     }
 
     @Test
-    fun loadEpisodes_failure_doesNotChangeExistingList() = runTest {
+    fun loadEpisodes_failure_doesNotChangeExistingData() = runTest {
         // Given
         `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
         sut.uiState.value = EpisodeListUiState(
@@ -85,6 +85,36 @@ class EpisodeListViewModelTest {
         )
         // When
         sut.loadEpisodes()
+        // Then
+        assertEquals(3, sut.uiState.value!!.episodeList.size)
+    }
+
+    @Test
+    fun loadEpisodes_paginated_success_addsToExistingData() = runTest {
+        // Given
+        `when`(mockedEpisodeReposity.getEpisodes(page = 2)).thenReturn(
+            Result.success(listOf(Episode(), Episode()))
+        )
+        sut.uiState.value = EpisodeListUiState(
+            episodeList = listOf(Episode(), Episode(), Episode())
+        )
+        // When
+        sut.loadEpisodes(page = 2)
+        // Then
+        assertEquals(5, sut.uiState.value!!.episodeList.size)
+    }
+
+    @Test
+    fun loadEpisodes_paginated_failure_doesNotChangeExistingData() = runTest {
+        // Given
+        `when`(mockedEpisodeReposity.getEpisodes(page = 2)).thenReturn(
+            Result.failure(Throwable("Testing failure"))
+        )
+        sut.uiState.value = EpisodeListUiState(
+            episodeList = listOf(Episode(), Episode(), Episode())
+        )
+        // When
+        sut.loadEpisodes(page = 2)
         // Then
         assertEquals(3, sut.uiState.value!!.episodeList.size)
     }
