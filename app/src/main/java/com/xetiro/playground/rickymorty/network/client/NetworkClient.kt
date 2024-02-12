@@ -9,16 +9,13 @@ import retrofit2.converter.gson.GsonConverterFactory
  *
  * Created by xetiro (aka Ruben Geraldes) on 2024/02/12.
  */
-class RetrofitClient {
+private const val BASE_URL = "https://rickandmortyapi.com/api/"
+object NetworkClient {
 
     private val client = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-    companion object {
-        private const val BASE_URL = "https://rickandmortyapi.com/api/"
-    }
 
     fun provideEpisodeApi(): EpisodeApi {
         return client.create(EpisodeApi::class.java)
