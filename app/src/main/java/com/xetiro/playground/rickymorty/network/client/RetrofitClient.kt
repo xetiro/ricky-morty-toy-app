@@ -17,7 +17,7 @@ class RetrofitClient {
         .build()
 
     companion object {
-        private const val BASE_URL = "https://rickandmortyapi.com/api"
+        private const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 
     fun provideEpisodeApi(): EpisodeApi {

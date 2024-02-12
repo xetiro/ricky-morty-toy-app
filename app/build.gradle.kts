@@ -7,6 +7,15 @@ android {
     namespace = "com.xetiro.playground.rickymorty"
     compileSdk = 34
 
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.9"
+    }
+
+
     defaultConfig {
         applicationId = "com.xetiro.playground.rickymorty"
         minSdk = 28
@@ -42,6 +51,12 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.activity:activity-compose")
+    implementation("androidx.compose.runtime:runtime-livedata")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
