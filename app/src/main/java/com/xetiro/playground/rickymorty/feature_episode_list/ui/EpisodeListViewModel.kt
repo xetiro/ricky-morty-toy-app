@@ -1,13 +1,11 @@
 package com.xetiro.playground.rickymorty.feature_episode_list.ui
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeRepository
 import kotlinx.coroutines.launch
 
-private const val DEBUG_TAG = "EpisodeListViewModel"
 class EpisodeListViewModel(
     private val episodeRepository: EpisodeRepository
 ): ViewModel() {
@@ -29,7 +27,6 @@ class EpisodeListViewModel(
     }
 
     private fun loadEpisodes(page: Int) = viewModelScope.launch {
-        Log.d(DEBUG_TAG, "loadEpisodes = ${uiState.value}")
         uiState.value = uiState.value?.copy(isLoading = true)
         val result = episodeRepository.getEpisodes(page = page)
         if (result.isSuccess) {
