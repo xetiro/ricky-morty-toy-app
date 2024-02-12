@@ -66,5 +66,9 @@ fun EpisodeCardView(episode: Episode) {
             text = episode.episode,
             modifier = Modifier.padding(8.dp)
         )
+        Text(
+            text = episode.created,
+            modifier = Modifier.padding(8.dp).align(Alignment.End)
+        )
     }
 }
