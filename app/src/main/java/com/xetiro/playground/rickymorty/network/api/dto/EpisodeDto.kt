@@ -8,22 +8,22 @@ import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
  * Created by xetiro (aka Ruben Geraldes) on 2024/02/11.
  */
 data class EpisodeDto(
-    val id: Int,
-    val name: String,
-    val air_date: String,
-    val episode: String,
-    val characters: List<String>,
-    val url: String,
-    val created: String
+    val id: Int? = null,
+    val name: String? = null,
+    val air_date: String? = null,
+    val episode: String? = null,
+    val characters: List<String>? = null,
+    val url: String? = null,
+    val created: String? = null
 )
 
 fun EpisodeDto.toDomain(): Episode {
     return Episode(
-        id = id,
-        name = name,
-        airDate = air_date,
-        episode = episode,
-        url = url,
-        created = created
+        id = id ?: 0,
+        name = name.orEmpty(),
+        airDate = air_date.orEmpty(),
+        episode = episode.orEmpty(),
+        url = url.orEmpty(),
+        created = created.orEmpty()
     )
 }
