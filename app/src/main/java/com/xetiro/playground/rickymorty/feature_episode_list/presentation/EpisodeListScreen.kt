@@ -34,6 +34,10 @@ fun EpisodeListScreen(viewModel: EpisodeListViewModel) {
                 modifier = Modifier.padding(128.dp)
             )
         } else {
+            Text(
+                text = "${uiState.episodeList.size} Episodes",
+                modifier = Modifier.padding(vertical = 16.dp)
+            )
             EpisodeListView(uiState.episodeList)
         }
     }
@@ -58,17 +62,20 @@ fun EpisodeCardView(episode: Episode) {
             .height(120.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Text(
-            text = episode.name,
-            modifier = Modifier.padding(8.dp)
-        )
-        Text(
-            text = episode.episode,
-            modifier = Modifier.padding(8.dp)
-        )
-        Text(
-            text = episode.created,
-            modifier = Modifier.padding(8.dp).align(Alignment.End)
-        )
+            Text(
+                text = episode.name,
+                modifier = Modifier.padding(8.dp)
+            )
+            Text(
+                text = episode.episode,
+                modifier = Modifier.padding(8.dp)
+            )
+
+            Text(
+                text = episode.created,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.End)
+            )
     }
 }

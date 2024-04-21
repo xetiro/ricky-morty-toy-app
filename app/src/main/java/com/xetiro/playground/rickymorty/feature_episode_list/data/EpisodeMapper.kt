@@ -15,6 +15,7 @@ fun EpisodeDto.toDomain(): Episode {
         airDate = air_date.orEmpty(),
         episode = episode.orEmpty(),
         url = url.orEmpty(),
+        characterUrls = characters.orEmpty(),
         created = created.orEmpty()
     )
 }

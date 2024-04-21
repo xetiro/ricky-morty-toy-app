@@ -6,5 +6,6 @@ data class Episode(
     val airDate: String = "",
     val episode: String = "",
     val url: String = "",
+    val characterUrls: List<String> = emptyList(),
     val created: String = ""
 )

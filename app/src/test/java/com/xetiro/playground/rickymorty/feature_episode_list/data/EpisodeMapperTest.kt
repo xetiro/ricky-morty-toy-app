@@ -32,6 +32,7 @@ class EpisodeMapperTest {
             air_date = "12/02/2024",
             episode = "S0E0",
             url = "www.somelink.com",
+            characters = listOf("www.url1.com", "www.url2.com", "www.url3.com"),
             created = "01/01/2000"
         )
         val expectedDomainModel = Episode(
@@ -40,6 +41,7 @@ class EpisodeMapperTest {
             airDate = "12/02/2024",
             episode = "S0E0",
             url = "www.somelink.com",
+            characterUrls = listOf("www.url1.com", "www.url2.com", "www.url3.com"),
             created = "01/01/2000"
         )
         // When
@@ -62,6 +64,7 @@ class EpisodeMapperTest {
             airDate = "",
             episode = "",
             url = "",
+            characterUrls = emptyList(),
             created = "01/01/2000"
         )
         // When

@@ -2,7 +2,7 @@ package com.xetiro.playground.rickymorty.feature_episode_list.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.xetiro.playground.rickymorty.feature_episode_list.MainDispatcherRule
-import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.EpisodeRepository
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.EpisodeRepository
 import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.Episode
 import com.xetiro.playground.rickymorty.feature_episode_list.observeForTesting
 import kotlinx.coroutines.test.runTest
