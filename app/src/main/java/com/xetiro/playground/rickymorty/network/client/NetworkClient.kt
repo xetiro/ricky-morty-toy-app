@@ -1,6 +1,6 @@
 package com.xetiro.playground.rickymorty.network.client
 
-import com.xetiro.playground.rickymorty.network.api.EpisodeApi
+import com.xetiro.playground.rickymorty.network.client.api.EpisodeApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

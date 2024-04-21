@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeRepositoryImpl
-import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListScreen
-import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListViewModel
+import com.xetiro.playground.rickymorty.feature_episode_list.presentation.EpisodeListScreen
+import com.xetiro.playground.rickymorty.feature_episode_list.presentation.EpisodeListViewModel
 import com.xetiro.playground.rickymorty.network.client.NetworkClient
 
 /**

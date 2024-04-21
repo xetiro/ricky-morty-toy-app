@@ -1,10 +1,10 @@
-package com.xetiro.playground.rickymorty.feature_episode_list
+package com.xetiro.playground.rickymorty.feature_episode_list.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeRepository
-import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
-import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListUiState
-import com.xetiro.playground.rickymorty.feature_episode_list.ui.EpisodeListViewModel
+import com.xetiro.playground.rickymorty.feature_episode_list.MainDispatcherRule
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.EpisodeRepository
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.observeForTesting
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before

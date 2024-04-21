@@ -1,8 +1,8 @@
 package com.xetiro.playground.rickymorty.feature_episode_list.data
 
-import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.EpisodeRepository
 import com.xetiro.playground.rickymorty.network.api.EpisodeApi
-import com.xetiro.playground.rickymorty.network.api.dto.toDomain
 
 /**
  * A repository for the Episode resource.

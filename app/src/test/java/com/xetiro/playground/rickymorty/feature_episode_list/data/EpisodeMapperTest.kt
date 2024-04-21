@@ -1,8 +1,7 @@
-package com.xetiro.playground.rickymorty.feature_episode_list
+package com.xetiro.playground.rickymorty.feature_episode_list.data
 
-import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
-import com.xetiro.playground.rickymorty.network.api.dto.EpisodeDto
-import com.xetiro.playground.rickymorty.network.api.dto.toDomain
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.data.dto.EpisodeDto
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
@@ -11,7 +10,7 @@ import org.junit.Test
  *
  * Created by xetiro (aka Ruben Geraldes) on 2024/02/12.
  */
-class EpisodeDtoToDomainTest {
+class EpisodeMapperTest {
 
     @Test
     fun dtoToDomain_maps_defaultValues() {

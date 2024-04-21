@@ -1,4 +1,4 @@
-package com.xetiro.playground.rickymorty.network.api.dto
+package com.xetiro.playground.rickymorty.feature_episode_list.data.dto
 
 /**
  * Description...

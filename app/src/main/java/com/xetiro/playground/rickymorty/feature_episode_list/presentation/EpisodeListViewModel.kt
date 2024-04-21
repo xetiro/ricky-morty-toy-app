@@ -1,9 +1,9 @@
-package com.xetiro.playground.rickymorty.feature_episode_list.ui
+package com.xetiro.playground.rickymorty.feature_episode_list.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xetiro.playground.rickymorty.feature_episode_list.data.EpisodeRepository
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.EpisodeRepository
 import kotlinx.coroutines.launch
 
 class EpisodeListViewModel(

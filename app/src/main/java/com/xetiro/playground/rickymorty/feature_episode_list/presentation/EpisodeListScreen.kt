@@ -1,4 +1,4 @@
-package com.xetiro.playground.rickymorty.feature_episode_list.ui
+package com.xetiro.playground.rickymorty.feature_episode_list.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.xetiro.playground.rickymorty.feature_episode_list.data.model.Episode
+import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.Episode
 
 
 /**
