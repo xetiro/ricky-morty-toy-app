@@ -25,20 +25,20 @@ class EpisodeListViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
-    lateinit var mockedEpisodeReposity: EpisodeRepository
+    lateinit var mockedEpisodeRepository: EpisodeRepository
 
     private lateinit var sut: EpisodeListViewModel
 
     @Before
     fun initSystemUnderTest() {
         MockitoAnnotations.openMocks(this)
-        sut = EpisodeListViewModel(episodeRepository = mockedEpisodeReposity)
+        sut = EpisodeListViewModel(episodeRepository = mockedEpisodeRepository)
     }
 
     @Test
     fun loadEpisodes_success_updatesLoadingState() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.success(emptyList()))
+        `when`(mockedEpisodeRepository.getEpisodes()).thenReturn(Result.success(emptyList()))
         val loadingStates = mutableListOf<EpisodeListUiState>()
         // When
         sut.uiState.observeForTesting(stateList = loadingStates) {
@@ -52,7 +52,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_failure_updatesLoadingState() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
+        `when`(mockedEpisodeRepository.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
         val loadingStates = mutableListOf<EpisodeListUiState>()
         // When
         sut.uiState.observeForTesting(stateList = loadingStates) {
@@ -66,7 +66,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_success_changesExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(
+        `when`(mockedEpisodeRepository.getEpisodes()).thenReturn(
             Result.success(value = listOf(Episode(), Episode(), Episode()))
         )
         val initialEpisodeListSize = sut.uiState.value!!.episodeList.size
@@ -80,7 +80,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_failure_doesNotChangeExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
+        `when`(mockedEpisodeRepository.getEpisodes()).thenReturn(Result.failure(Throwable("Testing failure")))
         sut.uiState.value = EpisodeListUiState(
             episodeList = listOf(Episode(), Episode(), Episode())
         )
@@ -93,7 +93,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_paginated_success_addsToExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
+        `when`(mockedEpisodeRepository.getEpisodes(anyInt())).thenReturn(
             Result.success(listOf(Episode(), Episode()))
         )
         sut.uiState.value = EpisodeListUiState(
@@ -108,7 +108,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_paginated_failure_doesNotChangeExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
+        `when`(mockedEpisodeRepository.getEpisodes(anyInt())).thenReturn(
             Result.failure(Throwable("Testing failure"))
         )
         sut.uiState.value = EpisodeListUiState(
@@ -123,7 +123,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_refresh_success_replacesExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
+        `when`(mockedEpisodeRepository.getEpisodes(anyInt())).thenReturn(
             Result.success(listOf(Episode(), Episode()))
         )
         sut.uiState.value = EpisodeListUiState(
@@ -138,7 +138,7 @@ class EpisodeListViewModelTest {
     @Test
     fun loadEpisodes_refresh_failure_doesNotChangeExistingData() = runTest {
         // Given
-        `when`(mockedEpisodeReposity.getEpisodes(anyInt())).thenReturn(
+        `when`(mockedEpisodeRepository.getEpisodes(anyInt())).thenReturn(
             Result.failure(Throwable("Testing failure"))
         )
         sut.uiState.value = EpisodeListUiState(
