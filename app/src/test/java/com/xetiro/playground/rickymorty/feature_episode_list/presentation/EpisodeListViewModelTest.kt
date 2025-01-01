@@ -5,16 +5,18 @@ import com.xetiro.playground.rickymorty.feature_episode_list.MainDispatcherRule
 import com.xetiro.playground.rickymorty.feature_episode_list.domain.EpisodeRepository
 import com.xetiro.playground.rickymorty.feature_episode_list.domain.model.Episode
 import com.xetiro.playground.rickymorty.feature_episode_list.observeForTesting
+import junit.framework.TestCase
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-
 
 class EpisodeListViewModelTest {
 
@@ -33,6 +35,11 @@ class EpisodeListViewModelTest {
     fun initSystemUnderTest() {
         MockitoAnnotations.openMocks(this)
         sut = EpisodeListViewModel(episodeRepository = mockedEpisodeRepository)
+    }
+
+    @Test
+    fun episodeList_starts_empty() {
+        assertEquals(true, sut.uiState.value?.episodeList?.isEmpty())
     }
 
     @Test
